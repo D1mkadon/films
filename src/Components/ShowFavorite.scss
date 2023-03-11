@@ -1,0 +1,31 @@
+.favoriteDiv {
+  width: 50%;
+  height: 100vh;
+  background-color: azure;
+  border-left: 1px solid black;
+  z-index: 2;
+  position: fixed;
+  right: 0;
+  animation-name: moveblock;
+  animation-timing-function: ease;
+  animation-duration: 0.4s;
+  animation-fill-mode: both;
+  animation-direction: alternate;
+}
+
+.xButton {
+  background: transparent;
+  font-size: 24px;
+  cursor: pointer;
+  position: absolute;
+  left: 10px;
+  top: 10px;
+}
+@keyframes moveblock {
+  0% {
+    right: -100%;
+  }
+  100% {
+    right: 0;
+  }
+}

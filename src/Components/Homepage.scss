@@ -1,0 +1,161 @@
+.block {
+  display: grid;
+  flex-wrap: wrap;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  grid-template-rows: auto;
+  margin-top: 100px;
+  column-gap: 15px;
+  row-gap: 45px;
+  padding: 0 15px;
+}
+.posterIMG {
+  width: 250px;
+  height: 300px;
+}
+.postBlock {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+.CloseX {
+  font-size: 30px;
+  position: fixed;
+  top: 0px;
+  right: 10px;
+  cursor: pointer;
+}
+.CloseX:hover {
+  opacity: 0.6;
+}
+.modalDiv {
+  display: flex;
+}
+.modalDivLeft,
+.modalDivRight {
+  width: 50%;
+}
+.modalDivRight {
+  padding: 10px;
+}
+.header {
+  background-color: #0f0f0f;
+  display: flex;
+  width: 100%;
+  justify-content: center;
+}
+.poster {
+  flex: 1 auto;
+}
+.pageDiv {
+  padding: 20px 0;
+}
+.pageCount {
+  width: 15px;
+  margin: 0 10px;
+}
+.pagination {
+  display: flex;
+  justify-content: center;
+}
+.errorMSG {
+  position: absolute;
+  font-weight: bold;
+  font-size: 20px;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+}
+.textField {
+  input {
+    color: white;
+    // border: 1px solid white;
+    width: 100px;
+    max-height: 36px;
+    min-height: 36px;
+    padding: 0;
+  }
+  .MuiOutlinedInput-input {
+    color: white;
+  }
+  .Mui-focused {
+    color: green;
+  }
+}
+
+.white {
+  color: white;
+}
+.select {
+  min-height: 39px;
+  max-height: 39px;
+  min-width: 100px;
+  max-width: 100px;
+  color: white;
+  border-color: "white";
+  > div {
+    padding: 0;
+    color: white;
+  }
+  fieldset {
+    border: 1px solid white;
+  }
+  &fieldset:first-child:hover {
+    border: 1px solid blue;
+  }
+
+  &fieldset:focus {
+    border: 1px solid grey;
+  }
+}
+.my-node-enter {
+  opacity: 0;
+}
+
+.my-node-enter-active {
+  opacity: 0.5;
+  transition: opacity 300ms;
+}
+
+.my-node-exit {
+  opacity: 1;
+}
+
+.my-node-exit-active {
+  opacity: 0;
+  transition: opacity 300ms;
+}
+
+.favoriteDiv100 {
+  z-index: 5;
+  width: 100%;
+  height: 100vh;
+  background-color: black;
+  position: fixed;
+}
+.forme {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  width: 100%;
+  max-height: 39px;
+  padding: 20px 0;
+}
+
+@media (max-width: 992px) {
+  .block {
+    grid-template-columns: 1fr 1fr;
+  }
+}
+@media (max-width: 414px) {
+  .block {
+    grid-template-columns: 1fr;
+  }
+  .block:nth-child(2) {
+    // margin-top: 10px;
+    border-top: 1px solid grey;
+  }
+  .postBlock {
+    border-bottom: 1px solid grey;
+  }
+}
