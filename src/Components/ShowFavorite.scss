@@ -1,18 +1,30 @@
 .favoriteDiv {
-  width: 50%;
+  max-width: 50%;
+  min-width: 50%;
   height: 100vh;
   background-color: azure;
   border-left: 1px solid black;
   z-index: 2;
   position: fixed;
   right: 0;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr 1fr;
+  column-gap: 10px;
+
+  grid-template-rows: auto;
   animation-name: moveblock;
   animation-timing-function: ease;
   animation-duration: 0.4s;
   animation-fill-mode: both;
   animation-direction: alternate;
+  img {
+    width: 100%;
+  }
 }
-
+.divFavorite {
+  margin-top: 50px;
+  // width: 100%;
+}
 .xButton {
   background: transparent;
   font-size: 24px;
@@ -27,5 +39,11 @@
   }
   100% {
     right: 0;
+  }
+}
+@media (max-width: 414px) {
+  .favoriteDiv {
+    max-width: 100%;
+    min-width: 100%;
   }
 }

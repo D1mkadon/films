@@ -1,8 +1,9 @@
 import React from "react";
 import { Modal, Box, Rating, Typography } from "@mui/material";
 import Checkbox from "@mui/material/Checkbox";
-import FavoriteBorder from "@mui/icons-material/FavoriteBorder";
-import Favorite from "@mui/icons-material/Favorite";
+
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
 const label = { inputProps: { "aria-label": "Checkbox demo" } };
 const style = {
   position: "absolute",
@@ -38,7 +39,7 @@ const MyModal = ({
                   style={{
                     objectFit: "cover",
                     height: "90%",
-                    Width: "100%",
+                    width: "100%",
                   }}
                   src={dataFull.Poster}
                   alt=""
@@ -65,8 +66,8 @@ const MyModal = ({
                 id={id}
                 checked={checked}
                 {...label}
-                icon={<FavoriteBorder color={"primary"} />}
-                checkedIcon={<Favorite />}
+                icon={<BookmarkBorderIcon color={"primary"} />}
+                checkedIcon={<BookmarksIcon />}
               />
             </div>
             <div className="modalDivRight">

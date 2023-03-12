@@ -5,12 +5,14 @@ import MyModal from "./MyModal";
 import Container from "@mui/material/Container";
 import SearchComponent from "./Search";
 import "./ShowFavorite.scss";
-import { CSSTransition } from "react-transition-group";
-
+import BookmarkBorderIcon from "@mui/icons-material/BookmarkBorder";
+import MySelect from "./MySelect";
+import MyErrorSnack from "./MyErrorSnack";
+import BookmarksIcon from "@mui/icons-material/Bookmarks";
+import MyWarningSnackBar from "./MyWarningSnackBar";
 import {
   CardContent,
   Alert,
-  AlertTitle,
   CardMedia,
   Typography,
   CardActionArea,
@@ -18,11 +20,6 @@ import {
   Button,
   TextField,
   Pagination,
-  FormControl,
-  InputLabel,
-  Select,
-  MenuItem,
-  Snackbar,
 } from "@mui/material";
 
 const API_KEY = "85a17fbd";
@@ -80,6 +77,7 @@ const HomePage = () => {
           setPage(1);
         } else {
           setYearErrorMsg(true);
+          setYearInputValue("");
         }
       } else {
         setYear("");
@@ -109,20 +107,18 @@ const HomePage = () => {
   }, [updateFull]);
 
   useEffect(() => {
+    setFavoriteInfo([]);
     for (let i = 0; i < favorite.length; i++) {
       axios
         .get(`http://www.omdbapi.com/?apikey=${API_KEY}&i=${favorite[i]}`)
         .then((ta) => {
           if (ta.status === 200) {
-            console.log(ta.data);
-
-            setFavoriteInfo([...favoriteInfo, ta.data]);
-
+            setFavoriteInfo((prevState) => [...prevState, ta.data]);
             console.log(favoriteInfo);
           }
         });
     }
-  }, [updateFav]);
+  }, [updateFav, favorite]);
 
   useEffect(() => {
     const wrongSearch = [
@@ -147,14 +143,14 @@ const HomePage = () => {
             setLoading(false);
           } else setData(wrongSearch);
           setErrorMsg(data.data.Error);
-        } else throw "bad request";
+        } else throw new Error(data.status);
       })
       .catch((err) => {
         console.error(err);
         setErrorMsg("Something went wrong");
         setLoading(false);
       });
-  }, [update, page]);
+  }, [update, year, filmName, type, page]);
 
   const handlePageChange = (event, value) => {
     setPage(value);
@@ -186,6 +182,10 @@ const HomePage = () => {
   };
   const handleHideFavorite = () => {
     setShowFavorite(false);
+    в;
+  };
+  const handleRemoveBookmark = (name) => {
+    setFavorite(favorite.filter((p) => p !== name));
   };
 
   return (
@@ -199,92 +199,36 @@ const HomePage = () => {
               handleInputChange={handleInputChange}
             />
           </div>
-
-          <FormControl color="primary" sx={{ m: 1 }}>
-            <InputLabel color="primary" id="demo-simple-select-autowidth-label">
-              Type
-            </InputLabel>
-            <Select
-              color="primary"
-              labelId="demo-simple-select-autowidth-label"
-              id="demo-simple-select-autowidth"
-              value={type}
-              onChange={handleChangeType}
-              label="Type"
-              autoWidth
-            >
-              <MenuItem value="">
-                <em>all</em>
-              </MenuItem>
-              <MenuItem value={"movie"}>movie</MenuItem>
-              <MenuItem value={"series"}>series</MenuItem>
-              <MenuItem value={"episode"}>episode</MenuItem>
-            </Select>
-          </FormControl>
+          <MySelect type={type} handleChangeType={handleChangeType} />
           <TextField
             color="primary"
             id="outlined-basic"
             label="Year"
             variant="outlined"
-            sx={{ width: "10%" }}
+            sx={{
+              "& label": { top: "-5px" },
+              "& label.Mui-focused": { top: "0" },
+              "& input": {
+                padding: "10px 10px",
+              },
+            }}
             value={yearInputValue}
             onChange={handleYearInputChange}
           />
-          <Snackbar
-            open={errorSearchMsg}
-            autoHideDuration={2000}
-            onClose={handleCloseAlert}
-          >
-            <Alert
-              sx={{
-                position: "fixed",
-                bottom: "15px",
-                left: "15px",
-                textAlign: "left",
-                width: "20%",
-              }}
-              variant="filled"
-              severity="error"
-            >
-              <AlertTitle>Error</AlertTitle>
-              Search cannot be empty
-            </Alert>
-          </Snackbar>
-          <Snackbar
-            open={errorYearMsg}
-            autoHideDuration={2000}
-            onClose={handleCloseAlert}
-          >
-            <Alert
-              sx={{
-                position: "fixed",
-                bottom: "15px",
-                left: "15px",
-                textAlign: "left",
-                width: "20%",
-              }}
-              variant="filled"
-              severity="warning"
-            >
-              <AlertTitle>Warning</AlertTitle>
-              Year should be empty or more than 1980
-            </Alert>
-          </Snackbar>
+          <MyErrorSnack
+            errorSearchMsg={errorSearchMsg}
+            handleCloseAlert={handleCloseAlert}
+          />
+          <MyWarningSnackBar
+            handleCloseAlert={handleCloseAlert}
+            errorYearMsg={errorYearMsg}
+          />
 
-          <Button
-            color="primary"
-            type="submit"
-            variant="outlined"
-            size="medium"
-          >
+          <Button color="primary" type="submit" variant="outlined" size="large">
             Search
           </Button>
-          <Button
-            onClick={handleShowFavorite}
-            sx={{ marginLeft: 10 }}
-            variant="outlined"
-          >
-            Saved
+          <Button onClick={handleShowFavorite} size="large" variant="outlined">
+            Favorites <BookmarkBorderIcon />
           </Button>
         </form>
       </header>
@@ -295,7 +239,25 @@ const HomePage = () => {
             &times;
           </span>
           {favoriteInfo.map((e, id) => {
-            return <div key={id}>{e.Title}</div>;
+            return (
+              <div className={"divFavorite"} key={id}>
+                <img style={{ objectFit: "cover" }} src={e.Poster} alt="" />
+                <Typography
+                  sx={{ m: "10px 0 0 0", fontSize: 20, height: 50 }}
+                  gutterBottom
+                  variant="h5"
+                  component="div"
+                >
+                  <BookmarksIcon
+                    props={e.imdbID}
+                    color="primary"
+                    sx={{ cursor: "pointer" }}
+                    onClick={() => handleRemoveBookmark(`${e.imdbID}`)}
+                  />
+                  {e.Title}
+                </Typography>
+              </div>
+            );
           })}
         </div>
       ) : null}
@@ -312,15 +274,6 @@ const HomePage = () => {
         </div>
       </div>
       <Container>
-        <TextField
-          color="primary"
-          id="outlined-basic"
-          label="Year"
-          variant="outlined"
-          sx={{ width: "10%" }}
-          value={yearInputValue}
-          onChange={handleYearInputChange}
-        />
         <MyModal
           handleChangeCheck={handleChangeCheck}
           dataFull={dataFull}
