@@ -10,13 +10,10 @@ import MySelect from "./MySelect";
 import MyErrorSnack from "./MyErrorSnack";
 import BookmarksIcon from "@mui/icons-material/Bookmarks";
 import MyWarningSnackBar from "./MyWarningSnackBar";
+import MyCard from "./MyCard";
 import {
-  CardContent,
   Alert,
-  CardMedia,
   Typography,
-  CardActionArea,
-  Card,
   Button,
   TextField,
   Pagination,
@@ -182,7 +179,6 @@ const HomePage = () => {
   };
   const handleHideFavorite = () => {
     setShowFavorite(false);
-    в;
   };
   const handleRemoveBookmark = (name) => {
     setFavorite(favorite.filter((p) => p !== name));
@@ -297,59 +293,7 @@ const HomePage = () => {
                   key={element.imdbID}
                   className={"postBlock"}
                 >
-                  <Card sx={{ width: "100%", flexDirection: "column" }}>
-                    <CardActionArea
-                      propskey={element.imdbID}
-                      onClick={(e) => clickFunction(e, `${element.imdbID}`)}
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        width: "100%",
-                        minHeight: 500,
-                        height: 600,
-                      }}
-                    >
-                      {element.Poster !== "N/A" ? (
-                        <CardMedia
-                          className="poster"
-                          component="img"
-                          image={element.Poster}
-                          height="590"
-                          sx={{ width: "100%" }}
-                        />
-                      ) : (
-                        <div
-                          className="poster"
-                          style={{
-                            width: "100%",
-
-                            textAlign: "center",
-                            background: "grey",
-                            display: "flex",
-                            alignItems: "center",
-                            justifyContent: "center",
-                            color: "black",
-                          }}
-                        >
-                          Picture not found.
-                        </div>
-                      )}
-
-                      <CardContent>
-                        <Typography
-                          sx={{ fontSize: 20, height: 50 }}
-                          gutterBottom
-                          variant="h5"
-                          component="div"
-                        >
-                          {element.Title}
-                        </Typography>
-                        <Typography variant="body2" color="text.disabled">
-                          {element.Type} {element.Year}
-                        </Typography>
-                      </CardContent>
-                    </CardActionArea>
-                  </Card>
+                  <MyCard element={element} clickFunction={clickFunction} />
                 </div>
               );
             })
